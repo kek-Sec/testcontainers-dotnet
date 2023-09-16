@@ -1,0 +1,18 @@
+{
+    "runtime": "Net60",
+    "documentGenerator": {
+        "fromDocument": {
+            "url": "https://docs.docker.com/reference/engine/v1.43.yaml"
+        }
+    },
+    "codeGenerators": {
+        "openApiToCSharpClient": {
+            "className": "DockerClient",
+            "namespace": "DockerEngine",
+            "jsonLibrary": "SystemTextJson",
+            "generateImmutableArrayProperties": true,
+            "generateImmutableDictionaryProperties": true,
+            "output": "DockerClient.cs"
+        }
+    }
+}
