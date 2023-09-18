@@ -8,9 +8,9 @@ public sealed class InfluxDbBuilder : ContainerBuilder<InfluxDbBuilder, InfluxDb
 
     public const ushort InfluxDbPort = 8086;
 
-    public const string DefaultUsername = "username";
+    public const string DefaultUsername = "influxdb";
 
-    public const string DefaultPassword = "password";
+    public const string DefaultPassword = "influxdb";
 
     public const string DefaultOrganization = "organization";
 

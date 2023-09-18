@@ -38,7 +38,7 @@ public sealed class DockerClientTest : IAsyncLifetime
         var dockerClient = new DockerClient(new UriBuilder(Uri.UriSchemeHttp, _dockerContainer.Hostname, _dockerContainer.GetMappedPublicPort(DockerPort)).ToString(), new HttpClient());
 
         // When
-        // TODO: Consider creating request and response objects instead of using a lengthy list of arguments.
+        // TODO: Consider creating request and response objects instead of using a lengthy list of arguments (avoid name clash with System.Threading.Tasks.Task etc.).
         await dockerClient.ImageCreateAsync(repository, null, null, tag, null, string.Empty, null, null, null);
 
         // TODO: Somehow, the HTTP request terminates too early, and the Docker image cannot be used or is not available right away. The container creation operation returns: no such image.
@@ -49,5 +49,24 @@ public sealed class DockerClientTest : IAsyncLifetime
 
         // Then
         Assert.Equal(64, response.Id.Length);
+    }
+
+    [Theory]
+    [InlineData("tcp://127.0.0.1:2375")]
+    [InlineData("npipe://./pipe/docker_engine")]
+    [InlineData("unix:///var/run/docker.sock")]
+    public async System.Threading.Tasks.Task CreatesDockerClient(string endpoint)
+    {
+        // TODO: Fix the '$endpoint' scheme is not supported.
+
+        // Given
+        var dockerClient = new DockerClient(endpoint, new HttpClient());
+
+        // When
+        var systemInfo = await dockerClient.SystemInfoAsync()
+            .ConfigureAwait(false);
+
+        // Then
+        Assert.NotEmpty(systemInfo.ID);
     }
 }
