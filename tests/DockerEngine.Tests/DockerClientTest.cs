@@ -17,11 +17,13 @@ public sealed class DockerClientTest : IAsyncLifetime
 
     public System.Threading.Tasks.Task InitializeAsync()
     {
+        // return System.Threading.Tasks.Task.CompletedTask;
         return _dockerContainer.StartAsync();
     }
 
     public System.Threading.Tasks.Task DisposeAsync()
     {
+        // return System.Threading.Tasks.Task.CompletedTask;
         return _dockerContainer.DisposeAsync().AsTask();
     }
 
@@ -42,7 +44,7 @@ public sealed class DockerClientTest : IAsyncLifetime
         await dockerClient.ImageCreateAsync(repository, null, null, tag, null, string.Empty, null, null, null);
 
         // TODO: Somehow, the HTTP request terminates too early, and the Docker image cannot be used or is not available right away. The container creation operation returns: no such image.
-        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(3));
+        // await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(3));
 
         // TODO: Try to avoid wrapping the actual content within an additional (unnecessary) body type, like `Body : ContainerConfig`.
         var response = await dockerClient.ContainerCreateAsync(null, null, new Body { Image = repository + ":" + tag });
@@ -60,11 +62,12 @@ public sealed class DockerClientTest : IAsyncLifetime
         // TODO: Fix the '$endpoint' scheme is not supported.
 
         // Given
-        var dockerClient = new DockerClient(endpoint, new HttpClient());
+        using var httpClient = new HttpClient(HttpMessageHandlerFactory.GetHttpMessageHandler(new Uri(endpoint)));
+
+        var dockerClient = new DockerClient(endpoint, httpClient);
 
         // When
-        var systemInfo = await dockerClient.SystemInfoAsync()
-            .ConfigureAwait(false);
+        var systemInfo = await dockerClient.SystemInfoAsync();
 
         // Then
         Assert.NotEmpty(systemInfo.ID);

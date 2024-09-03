@@ -1,8 +1,8 @@
 {
-    "runtime": "Net60",
+    "runtime": "Net80",
     "documentGenerator": {
         "fromDocument": {
-            "url": "https://docs.docker.com/reference/engine/v1.43.yaml"
+            "url": "https://docs.docker.com/reference/api/engine/v1.46.yaml"
         }
     },
     "codeGenerators": {

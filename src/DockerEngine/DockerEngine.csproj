@@ -1,15 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net6.0</TargetFrameworks>
+        <TargetFrameworks>net8.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
+        <Version>$(Version)+v1.43</Version>
+        <Product>DockerEngine</Product>
+        <Description></Description>
+        <Summary></Summary>
+        <PackageIcon></PackageIcon>
+        <PackageIconUrl></PackageIconUrl>
+        <PackageReadmeFile></PackageReadmeFile>
+        <PackageTags>api;client;docker;dotnet</PackageTags>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="NSwag.MSBuild" Version="13.20.0">
+        <PackageReference Include="NSwag.MSBuild">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
     </ItemGroup>
     <Target Name="NSwag" BeforeTargets="CoreCompile">
-        <Exec Command="$(NSwagExe_Net60) run NSwag.json"/>
+        <Exec Command="$(NSwagExe_Net80) run NSwag.json"/>
     </Target>
 </Project>
