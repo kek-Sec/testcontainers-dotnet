@@ -29,11 +29,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-22.04, windows-2022 ]
+        os: [ ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, ubuntu-latest, windows-2022 ]
 
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Debug MSSQL Container Start
+        run: docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong!Passw0rd' mcr.microsoft.com/mssql/server:2019-CU18-ubuntu-20.04
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
